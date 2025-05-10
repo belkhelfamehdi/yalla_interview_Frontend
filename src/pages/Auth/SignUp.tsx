@@ -1,8 +1,12 @@
-import { useState, type FormEvent } from "react";
+import { useContext, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
 import { validateEmail } from "../../utils/helper";
+import { UserContext } from "../../context/userContext";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import uploadImage from "../../utils/UploadImage";
 
 interface SignUpProps {
   setCurrentPage: (page: string) => void;
@@ -15,6 +19,8 @@ const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
 
+  const { updateUser } = useContext(UserContext);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
 
@@ -22,7 +28,7 @@ const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
     e.preventDefault();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const profilePicUrl = "";
+    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Full name must be provided");
@@ -42,7 +48,28 @@ const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
     setError("");
 
     try {
-      // TODO: Sign up logic (API call, etc.)
+      // Upload image if present
+if (profilePic) {
+  const imgUploadRes = await uploadImage(profilePic);
+  console.log("Image upload response:", imgUploadRes);
+  profileImageUrl = imgUploadRes.imageUrl ?? "";
+}
+
+const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+  name: fullName,
+  email,
+  password,
+  profileImageUrl,
+});
+
+const { token } = response.data;
+
+if (token) {
+  localStorage.setItem("token", token);
+  updateUser(response.data);
+  navigate("/dashboard");
+}
+
     } catch (err: unknown) {
   if (
     typeof err === "object" &&
@@ -120,3 +147,4 @@ const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
 };
 
 export default SignUp;
+

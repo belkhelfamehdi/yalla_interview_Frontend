@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom'
 import { APP_FEATURES } from '../utils/data'
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { LuSparkles } from 'react-icons/lu'
 import heroImage from '../assets/imageHero.png'
 import Logo from '../assets/yalla_interview.png'
 import Login from './Auth/Login';
 import SignUp from './Auth/SignUp';
 import Modal from '../components/Modal';
+import { UserContext } from '../context/userContext';
+import ProfileInfoCard from '../components/Cards/ProfileInfoCard';
 
 const LandingPage = () => {
+  const { user } = useContext(UserContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
@@ -16,7 +19,13 @@ const LandingPage = () => {
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const [currentPage, setCurrentPage] = useState("login");
 
-  const handleCTA = () => {};
+  const handleCTA = () => {
+    if (user) {
+      navigate("/dashboard");
+    } else {
+      setOpenAuthModal(true);
+    }
+  };
 
   return (
     <>
@@ -28,9 +37,9 @@ const LandingPage = () => {
             <div className='text-xl text-black font-bold'>
               <img src={Logo} className='w-32 h-auto' alt="" />
             </div>
-            <button className='bg-linear-to-l from-[#ff2424] to-[#e94b4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white bprder border-white transition-colors cursor-pointer' onClick={() => setOpenAuthModal(true)}>
+            {user ? <ProfileInfoCard /> : <button className='bg-linear-to-l from-[#ff2424] to-[#e94b4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white bprder border-white transition-colors cursor-pointer' onClick={() => setOpenAuthModal(true)}>
               Login / Sign Up
-            </button>
+            </button>}
           </header>
 
           {/* Hero Section */}

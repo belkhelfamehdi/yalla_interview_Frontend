@@ -1,6 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useContext, useState, type FormEvent } from "react";
 import Input from "../../components/Inputs/Input";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
+import { UserContext } from "../../context/userContext";
 
 interface LoginProps {
   setCurrentPage: (page: string) => void;
@@ -14,6 +17,8 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+
+  const {updateUser} = useContext(UserContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const navigate = useNavigate();
@@ -33,8 +38,21 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
 
     setError("");
 
+// Login api call
 try {
-  // TODO: Implement login logic
+  const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+  email,
+  password,
+});
+
+const { token } = response.data;
+
+if (token) {
+  localStorage.setItem("token", token);
+  updateUser(response.data); // Update user context with the response data
+  navigate("/dashboard");
+}
+
 } catch (err: unknown) {
   if (
     typeof err === "object" &&
