@@ -1,6 +1,11 @@
 import React from "react";
 
-const DeleteAlertContent = ({ content, onDelete }) => {
+interface DeleteAlertContentProps {
+  content: string;
+  onDelete: () => void;
+}
+
+const DeleteAlertContent: React.FC<DeleteAlertContentProps> = ({ content, onDelete }) => {
   return (
     <div className="p-5">
       <p className="text-[14px]">{content}</p>

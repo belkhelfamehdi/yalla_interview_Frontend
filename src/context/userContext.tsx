@@ -1,16 +1,40 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+} from "react";
 import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
 
-export const UserContext = createContext();
+interface User {
+  name?: string;
+  profileImageUrl?: string;
+  token: string;
+  // Add other properties your user object contains
+}
 
-const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // New state to track loading
+interface UserContextType {
+  user: User | null;
+  loading: boolean;
+  updateUser: (userData: User) => void;
+  clearUser: () => void;
+}
+
+export const UserContext = createContext<UserContextType | undefined>(
+  undefined
+);
+
+interface Props {
+  children: React.ReactNode;
+}
+
+const UserProvider: React.FC<Props> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     if (user) return;
-    
+
     const token = localStorage.getItem("token");
     if (!token) {
       setLoading(false);
@@ -19,27 +43,28 @@ const UserProvider = ({ children }) => {
 
     const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
+        const response = await axiosInstance.get<User>(API_PATHS.AUTH.GET_PROFILE);
         setUser(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
     fetchUser();
-  }, []);
+  }, [user]);
 
-  const updateUser = (userData) => {
+  const updateUser = (userData: User) => {
     setUser(userData);
-    localStorage.setItem("token", userData.token); // Store token in local storage
-    setLoading(false); // Set loading to false after updating user
-  }
+    localStorage.setItem("token", userData.token);
+    setLoading(false);
+  };
+
   const clearUser = () => {
     setUser(null);
-    localStorage.removeItem("token"); // Remove token from local storage
-  }
+    localStorage.removeItem("token");
+  };
 
   return (
     <UserContext.Provider value={{ user, loading, updateUser, clearUser }}>

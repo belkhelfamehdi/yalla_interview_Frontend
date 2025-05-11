@@ -1,4 +1,9 @@
-import { useContext, useState, type FormEvent } from "react";
+import {
+  useContext,
+  useState,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import ProfilePhotoSelector from "../../components/Inputs/ProfilePhotoSelector";
@@ -7,28 +12,24 @@ import { UserContext } from "../../context/userContext";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
 import uploadImage from "../../utils/UploadImage";
+import type { AxiosError } from "axios";
 
 interface SignUpProps {
-  setCurrentPage: (page: string) => void;
+  setCurrentPage: (page: "login" | "signup") => void;
 }
 
 const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
   const [profilePic, setProfilePic] = useState<File | null>(null);
-  const [fullName, setFullName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const { updateUser } = useContext(UserContext);
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { updateUser } = useContext(UserContext)!;
   const navigate = useNavigate();
 
-  const handleSignUp = async (e: FormEvent) => {
+  const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let profileImageUrl = "";
 
     if (!fullName) {
       setError("Full name must be provided");
@@ -48,42 +49,35 @@ const SignUp: React.FC<SignUpProps> = ({ setCurrentPage }) => {
     setError("");
 
     try {
-      // Upload image if present
-if (profilePic) {
-  const imgUploadRes = await uploadImage(profilePic);
-  console.log("Image upload response:", imgUploadRes);
-  profileImageUrl = imgUploadRes.imageUrl ?? "";
-}
+      let profileImageUrl = "";
 
-const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
-  name: fullName,
-  email,
-  password,
-  profileImageUrl,
-});
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes?.imageUrl ?? "";
+      }
 
-const { token } = response.data;
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        name: fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
 
-if (token) {
-  localStorage.setItem("token", token);
-  updateUser(response.data);
-  navigate("/dashboard");
-}
+      const { token } = response.data;
 
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(response.data);
+        navigate("/dashboard");
+      }
     } catch (err: unknown) {
-  if (
-    typeof err === "object" &&
-    err !== null &&
-    "response" in err &&
-    typeof (err as { response?: unknown }).response === "object" &&
-    (err as { response?: { data?: { message?: string } } }).response?.data?.message
-  ) {
-    const errorMessage = (err as { response: { data: { message: string } } }).response.data.message;
-    setError(errorMessage);
-  } else {
-    setError("An error occurred. Please try again later.");
-  }
-}
+      const axiosError = err as AxiosError<{ message: string }>;
+      if (axiosError.response?.data?.message) {
+        setError(axiosError.response.data.message);
+      } else {
+        setError("An error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
@@ -99,7 +93,7 @@ if (token) {
         <div className="grid grid-cols-1 gap-2">
           <Input
             value={fullName}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setFullName(e.target.value)
             }
             label="Full Name"
@@ -108,16 +102,16 @@ if (token) {
           />
           <Input
             value={email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setEmail(e.target.value)
             }
             label="Email Address"
             type="text"
-            placeholder=""
+            placeholder="john@example.com"
           />
           <Input
             value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setPassword(e.target.value)
             }
             label="Password"
@@ -135,6 +129,7 @@ if (token) {
         <p className="text-[13px] text-slate-800 mt-3">
           Already have an account?{" "}
           <button
+            type="button"
             className="font-medium text-red-700 underline cursor-pointer"
             onClick={() => setCurrentPage("login")}
           >
@@ -147,4 +142,3 @@ if (token) {
 };
 
 export default SignUp;
-

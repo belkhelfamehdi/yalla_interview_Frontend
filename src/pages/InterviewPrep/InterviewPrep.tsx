@@ -14,26 +14,55 @@ import AIResponsePreview from "./components/AiResponsePreview";
 import Drawer from "../../components/Drawer";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";
 
-const InterviewPrep = () => {
-  const { sessionId } = useParams();
+// -----------------------
+// Interfaces
+// -----------------------
+interface Question {
+  _id: string;
+  question: string;
+  answer: string;
+  isPinned: boolean;
+}
 
-  const [sessionData, setSessionData] = useState(null);
-  const [errorMsg, setErrorMsg] = useState("");
+interface SessionData {
+  _id: string;
+  role: string;
+  topicToFocus: string;
+  experience: string;
+  description: string;
+  updatedAt: string;
+  questions: Question[];
+}
 
-  const [openLearnMoreDrawer, setOpenLearnMoreDrawer] = useState(false);
-  const [explanation, setExplanation] = useState("");
+interface Explanation {
+  title: string;
+  explanation: string;
+}
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [isUpdateLoader, setIsUpdateLoader] = useState(false);
+interface RouteParams extends Record<string, string | undefined> {
+  sessionId?: string;
+}
+
+const InterviewPrep: React.FC = () => {
+  const { sessionId } = useParams<RouteParams>();
+
+  const [sessionData, setSessionData] = useState<SessionData | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string>("");
+
+  const [openLearnMoreDrawer, setOpenLearnMoreDrawer] = useState<boolean>(false);
+  const [explanation, setExplanation] = useState<Explanation | null>(null);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isUpdateLoader, setIsUpdateLoader] = useState<boolean>(false);
 
   // Fetch session data by session id
   const fetchSessionDetailsById = async () => {
     try {
-      const response = await axiosInstance.get(
+      const response = await axiosInstance.get<{ session: SessionData }>(
         API_PATHS.SESSION.GET_ONE(sessionId)
       );
 
-      if (response.data && response.data.session) {
+      if (response.data?.session) {
         setSessionData(response.data.session);
       }
     } catch (error) {
@@ -42,97 +71,82 @@ const InterviewPrep = () => {
   };
 
   // Generate Concept Explanation
-  const generateConceptExplanation = async (question) => {
+  const generateConceptExplanation = async (question: string) => {
     try {
       setErrorMsg("");
       setExplanation(null);
-
       setIsLoading(true);
       setOpenLearnMoreDrawer(true);
 
-      const response = await axiosInstance.post(
+      const response = await axiosInstance.post<Explanation>(
         API_PATHS.AI.GENERATE_EXPLANATION,
-        {
-          question,
-        }
+        { question }
       );
 
       if (response.data) {
         setExplanation(response.data);
       }
-    } catch (error) {
+    } catch (error: unknown) {
       setExplanation(null);
-      setErrorMsg("Failed to generate explanation. Please try again." + error.message);
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+      setErrorMsg("Failed to generate explanation. Please try again. " + errorMessage);
     } finally {
       setIsLoading(false);
     }
-
   };
 
-  // Pin Question
   // Pin / Unpin a question
-  const toggleQuestionPinStatus = async (questionId) => {
+  const toggleQuestionPinStatus = async (questionId: string) => {
     try {
-      const response = await axiosInstance.post(
-        API_PATHS.QUESTION.PIN(questionId)
-      );
+      const response = await axiosInstance.post(API_PATHS.QUESTION.PIN(questionId));
 
-      console.log(response);
-
-      if (response.data && response.data.question) {
-        // toast.success('Question Pinned Successfully')
+      if (response.data?.question) {
         fetchSessionDetailsById();
       }
     } catch (error) {
       console.error("Error:", error);
     }
-
-  }
+  };
 
   // Add more questions to a session
   const uploadMoreQuestions = async () => {
     try {
-    setIsUpdateLoader(true);
+      setIsUpdateLoader(true);
 
-    // Call AI API to generate questions
-    const aiResponse = await axiosInstance.post(
-      API_PATHS.AI.GENERATE_QUESTIONS,
-      {
-        role: sessionData?.role,
-        experience: sessionData?.experience,
-        topicToFocus: sessionData?.topicToFocus,
-        numberOfQuestions: 10,
+      const aiResponse = await axiosInstance.post<Question[]>(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role: sessionData?.role,
+          experience: sessionData?.experience,
+          topicToFocus: sessionData?.topicToFocus,
+          numberOfQuestions: 10,
+        }
+      );
+
+      const generatedQuestions = aiResponse.data;
+
+      const response = await axiosInstance.post(API_PATHS.QUESTION.ADD_TO_SESSION, {
+        sessionId,
+        questions: generatedQuestions,
       });
 
-    // Should be array like [{question, answer}, ...]
-    const generatedQuestions = aiResponse.data;
-    const response = await axiosInstance.post(
-      API_PATHS.QUESTION.ADD_TO_SESSION,
-      {
-        sessionId: sessionId,
-        questions: generatedQuestions,
+      if (response.data) {
+        toast.success("Questions Added Successfully");
+        fetchSessionDetailsById();
       }
-    );
-    if (response.data) {
-      toast.success("Questions Added Successfully");
-      fetchSessionDetailsById();
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to add questions. Please try again.");
+    } finally {
+      setIsUpdateLoader(false);
     }
-  }catch (error) {
-    console.error("Error:", error);
-    toast.error("Failed to add questions. Please try again.");
-  }finally {
-    setIsUpdateLoader(false);
-  }
-}
-
+  };
 
   useEffect(() => {
     if (sessionId) {
       fetchSessionDetailsById();
     }
-
-    return () => { };
-  }, []);
+  }, [sessionId]);
 
   return (
     <DashboardLayout>
@@ -149,88 +163,70 @@ const InterviewPrep = () => {
         }
       />
 
-
       <div className="container mx-auto py-4 px-4 md:px-0">
         <h2 className="text-lg font-semibold text-black">Interview Q & A</h2>
         <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
-          <div
-            className={`col-span-12 ${openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"
-              }`}
-          >
+          <div className={`col-span-12 ${openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"}`}>
             <AnimatePresence>
-              {sessionData?.questions?.map((data, index) => {
-                return (
-                  <motion.div
-                    key={data._id || index}
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      duration: 0.4,
-                      type: "spring",
-                      stiffness: 100,
-                      delay: index * 0.1,
-                      damping: 15,
-                    }}
-                    layout
-                    layoutId={`question-${data._id || index}`}
-                  >
-                    {/* Question component or content here */}
-                    <QuestionCard
-                      question={data?.question}
-                      answer={data?.answer}
-                      onLearnMore={() =>
-                        generateConceptExplanation(data.question)
-                      }
-                      isPinned={data?.isPinned}
-                      onTogglePin={() => toggleQuestionPinStatus(data._id)}
-                    />
+              {sessionData?.questions?.map((data, index) => (
+                <motion.div
+                  key={data._id}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{
+                    duration: 0.4,
+                    type: "spring",
+                    stiffness: 100,
+                    delay: index * 0.1,
+                    damping: 15,
+                  }}
+                  layout
+                  layoutId={`question-${data._id}`}
+                >
+                  <QuestionCard
+                    question={data.question}
+                    answer={data.answer}
+                    onLearnMore={() => generateConceptExplanation(data.question)}
+                    isPinned={data.isPinned}
+                    onTogglePin={() => toggleQuestionPinStatus(data._id)}
+                  />
 
-                    {!isLoading &&
-                      sessionData?.questions?.length === index + 1 && (
-                        <div className="flex items-center justify-center mt-5">
-                          <button
-                            className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rouneded text-nowrap cursor-pointer"
-                            disabled={isLoading || isUpdateLoader}
-                            onClick={uploadMoreQuestions}
-                          >
-                            {isUpdateLoader ? (
-                              <SpinnerLoader />
-                            ) : (
-                              <LuListCollapse className="text-lg " />
-                            )}
-                            {" "}Load More
-                          </button>
-                        </div>
-                      )}
-
-                  </motion.div>
-                );
-              })}
+                  {!isLoading &&
+                    sessionData.questions.length === index + 1 && (
+                      <div className="flex items-center justify-center mt-5">
+                        <button
+                          className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rouneded text-nowrap cursor-pointer"
+                          disabled={isLoading || isUpdateLoader}
+                          onClick={uploadMoreQuestions}
+                        >
+                          {isUpdateLoader ? <SpinnerLoader /> : <LuListCollapse className="text-lg" />}
+                          {" "}Load More
+                        </button>
+                      </div>
+                    )}
+                </motion.div>
+              ))}
             </AnimatePresence>
           </div>
         </div>
 
-        <div>
-          <Drawer
-            isOpen={openLearnMoreDrawer}
-            onClose={() => setOpenLearnMoreDrawer(false)}
-            title={!isLoading && explanation?.title}
-          >
-            {errorMsg && (
-              <p className="flex gap-2 text-sm text-amber-600 font-medium">
-                <LuCircleAlert className="mt-1" />
-                {errorMsg}
-              </p>
-            )}
-            {isLoading && <SkeletonLoader />}
-            {!isLoading && explanation && (
-              <AIResponsePreview content={explanation?.explanation} />
-            )}
-          </Drawer>
-
-
-        </div>
+        <Drawer
+          isOpen={openLearnMoreDrawer}
+          onClose={() => setOpenLearnMoreDrawer(false)}
+          title={!isLoading && explanation?.title}
+        >
+          {errorMsg && (
+            <p className="flex gap-2 text-sm text-amber-600 font-medium">
+              <LuCircleAlert className="mt-1" />
+              {errorMsg}
+            </p>
+          )}
+          {isLoading && <SkeletonLoader />}
+          {!isLoading && explanation && (
+            <AIResponsePreview content={explanation.explanation} />
+          )}
+        </Drawer>
       </div>
     </DashboardLayout>
   );
