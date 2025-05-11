@@ -10,8 +10,8 @@ export const API_PATHS = {
     UPLOAD_IMAGE: "/api/auth/upload-image",
   },
   AI: {
-    GENERATE_QUESTIONS: "/api/generate-questions",
-    GENERATE_EXPLANATION: "/api/generate-explanation",
+    GENERATE_QUESTIONS: "/api/ai/generate-questions",
+    GENERATE_EXPLANATION: "/api/ai/generate-explanations",
   },
   SESSION: {
     CREATE: "/api/sessions/create",
