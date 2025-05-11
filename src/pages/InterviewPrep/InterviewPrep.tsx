@@ -14,9 +14,6 @@ import AIResponsePreview from "./components/AiResponsePreview";
 import Drawer from "../../components/Drawer";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";
 
-// -----------------------
-// Interfaces
-// -----------------------
 interface Question {
   _id: string;
   question: string;
@@ -55,13 +52,11 @@ const InterviewPrep: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isUpdateLoader, setIsUpdateLoader] = useState<boolean>(false);
 
-  // Fetch session data by session id
   const fetchSessionDetailsById = async () => {
     try {
       const response = await axiosInstance.get<{ session: SessionData }>(
-        API_PATHS.SESSION.GET_ONE(sessionId)
+        API_PATHS.SESSION.GET_ONE(sessionId ?? "")
       );
-
       if (response.data?.session) {
         setSessionData(response.data.session);
       }
@@ -70,7 +65,6 @@ const InterviewPrep: React.FC = () => {
     }
   };
 
-  // Generate Concept Explanation
   const generateConceptExplanation = async (question: string) => {
     try {
       setErrorMsg("");
@@ -95,11 +89,9 @@ const InterviewPrep: React.FC = () => {
     }
   };
 
-  // Pin / Unpin a question
   const toggleQuestionPinStatus = async (questionId: string) => {
     try {
       const response = await axiosInstance.post(API_PATHS.QUESTION.PIN(questionId));
-
       if (response.data?.question) {
         fetchSessionDetailsById();
       }
@@ -108,7 +100,6 @@ const InterviewPrep: React.FC = () => {
     }
   };
 
-  // Add more questions to a session
   const uploadMoreQuestions = async () => {
     try {
       setIsUpdateLoader(true);
@@ -164,7 +155,9 @@ const InterviewPrep: React.FC = () => {
       />
 
       <div className="container mx-auto py-4 px-4 md:px-0">
-        <h2 className="text-lg font-semibold text-black">Interview Q & A</h2>
+        <h2 className="text-lg font-semibold text-black border-b border-[#d9182e] pb-1 inline-block">
+          Interview Q & A
+        </h2>
         <div className="grid grid-cols-12 gap-4 mt-5 mb-10">
           <div className={`col-span-12 ${openLearnMoreDrawer ? "md:col-span-7" : "md:col-span-8"}`}>
             <AnimatePresence>
@@ -196,12 +189,12 @@ const InterviewPrep: React.FC = () => {
                     sessionData.questions.length === index + 1 && (
                       <div className="flex items-center justify-center mt-5">
                         <button
-                          className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rouneded text-nowrap cursor-pointer"
+                          className="flex items-center gap-3 text-sm text-white font-medium bg-[#d9182e] hover:bg-black px-5 py-2 rounded-full transition-colors"
                           disabled={isLoading || isUpdateLoader}
                           onClick={uploadMoreQuestions}
                         >
                           {isUpdateLoader ? <SpinnerLoader /> : <LuListCollapse className="text-lg" />}
-                          {" "}Load More
+                          Load More
                         </button>
                       </div>
                     )}
@@ -217,7 +210,7 @@ const InterviewPrep: React.FC = () => {
           title={!isLoading && explanation?.title}
         >
           {errorMsg && (
-            <p className="flex gap-2 text-sm text-amber-600 font-medium">
+            <p className="flex gap-2 text-sm text-[#d9182e] font-medium">
               <LuCircleAlert className="mt-1" />
               {errorMsg}
             </p>

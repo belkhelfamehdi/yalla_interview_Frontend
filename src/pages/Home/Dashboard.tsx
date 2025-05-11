@@ -12,9 +12,6 @@ import Modal from "../../components/Modal";
 import CreateSessionFrom from "./CreateSessionFrom";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
 
-// -----------------
-// Types
-// -----------------
 interface Session {
   _id: string;
   role: string;
@@ -30,9 +27,6 @@ interface DeleteAlertState {
   data: Session | null;
 }
 
-// -----------------
-// Component
-// -----------------
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
@@ -96,7 +90,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         <button
-          className="h-12 md:h-12 flex items-center justify-center gap-3 bg-gradient-to-r from-[#FF9324] to-[#E99A4B] text-sm font-semibold text-white px-7 rounded-full hover:bg-black hover:text-white transition-colors cursor-pointer hover:shadow-2xl hover:shadow-orange-300 fixed bottom-10 md:bottom-20 right-10 md:right-20"
+          className="h-12 md:h-12 flex items-center justify-center gap-3 bg-[#d9182e] hover:bg-black text-sm font-semibold text-white px-7 rounded-full transition-colors cursor-pointer shadow-md fixed bottom-10 md:bottom-20 right-10 md:right-20"
           onClick={() => setOpenCreateModal(true)}
         >
           <LuPlus className="text-2xl text-white" />

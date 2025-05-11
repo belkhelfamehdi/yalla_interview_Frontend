@@ -29,7 +29,7 @@ const LandingPage: React.FC = () => {
     <>
       <div className='w-full min-h-full bg-[#ffefef]'>
         <div className='w-[500px] h-[500px] bg-red-200/30 blur-[65px] absolute top-0 left-0' />
-        <div className='container mx-auto px-4 pt-6 pb-[200px] relative z-10'>
+        <div className='container mx-auto px-4 md:px-20 pt-6 pb-[200px] relative z-10'>
           {/* Header */}
           <header className='flex justify-between items-center mb-16'>
             <div className='text-xl text-black font-bold'>
@@ -87,36 +87,36 @@ const LandingPage: React.FC = () => {
         </section>
       </div>
 
-      {/* Features Section */}
-      <div className='w-full min-h-full bg-[#ffefef] mt-10'>
-        <div className='container mx-auto px-4 pt-10 pb-20'>
-          <section className='mt-5'>
-            <h2 className='text-2xl font-medium text-center mb-12'>
-              Features that make you shine
-            </h2>
+{/* Features Section */}
+<div className="w-full bg-[#f9fafb] py-20">
+  <div className="container mx-auto px-4 md:px-20">
+    <section>
+      <h2 className="text-3xl font-semibold text-center mb-6 text-black">
+        Smart Features. Real Results.
+      </h2>
+      <p className="text-center text-gray-600 max-w-xl mx-auto mb-16">
+        Discover the tools that help you prep faster, smarter, and more effectively.
+      </p>
 
-            <div className='flex flex-col items-center gap-8'>
-              <div className='grid grid-cols-1 md:grid-cols-3 gap-8 w-full'>
-                {APP_FEATURES.slice(0, 3).map((feature, index) => (
-                  <div key={index} className='bg-[#fff8f8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-red-100 transition border border-red-100'>
-                    <h3 className='text-base font-semibold mb-3'>{feature.title}</h3>
-                    <p className='text-gray-600'>{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-8 w-full'>
-                {APP_FEATURES.slice(3).map((feature, index) => (
-                  <div key={index} className='bg-[#fff8f8] p-6 rounded-xl shadow-xs hover:shadow-lg shadow-red-100 transition border border-red-100'>
-                    <h3 className='text-base font-semibold mb-3'>{feature.title}</h3>
-                    <p className='text-gray-600'>{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {APP_FEATURES.map((feature, index) => (
+          <div
+            key={index}
+            className="bg-white p-6 border border-[#d9182e]/20 rounded-xl shadow-sm hover:shadow-md transition group"
+          >
+            <h3 className="text-lg font-semibold text-black group-hover:text-[#d9182e] mb-2">
+              {feature.title}
+            </h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
+              {feature.description}
+            </p>
+          </div>
+        ))}
       </div>
+    </section>
+  </div>
+</div>
+
 
       {/* Footer */}
       <div className='text-sm bg-gray-50 text-secondary text-center p-5 mt-5'>

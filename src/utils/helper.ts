@@ -3,7 +3,7 @@ export const validateEmail = (email: string) => {
     return re.test(email);
 }
 
-export const getInitials = (title) => {
+export const getInitials = (title : string) => {
   if (!title) return "";
 
   const words = title.split(" ");

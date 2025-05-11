@@ -16,12 +16,12 @@ export const API_PATHS = {
   SESSION: {
     CREATE: "/api/sessions/create",
     GET_ALL: "/api/sessions/my-sessions",
-    GET_ONE: (id) => `/api/sessions/${id}`,
-    DELETE: (id) => `/api/sessions/${id}`,
+    GET_ONE: (id: string): string => `/api/sessions/${id}`,
+    DELETE: (id: string): string => `/api/sessions/${id}`,
   },
   QUESTION: {
     ADD_TO_SESSION: "/api/questions/add",
-    PIN: (id) => `/api/questions/${id}/pin`,
-    UPDATE_NOTE: (id) => `/api/questions/${id}/note`,
+    PIN: (id: string): string => `/api/questions/${id}/pin`,
+    UPDATE_NOTE: (id: string): string => `/api/questions/${id}/note`,
   },
 };

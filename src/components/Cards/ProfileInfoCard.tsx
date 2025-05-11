@@ -18,7 +18,7 @@ interface UserContextType {
 
 const ProfileInfoCard: React.FC = () => {
   const context = useContext(UserContext) as UserContextType;
-  const navigate = useNavigate(); // <-- moved here, at top
+  const navigate = useNavigate();
 
   if (!context || !context.user) return null;
 
@@ -42,7 +42,7 @@ const ProfileInfoCard: React.FC = () => {
           {user.name || ""}
         </div>
         <button
-          className="text-amber-600 text-sm font-semibold cursor-pointer hover:underline"
+          className="text-[#d9182e] text-sm font-semibold cursor-pointer hover:underline"
           onClick={handleLogout}
         >
           Logout
