@@ -1,12 +1,10 @@
-
 const SpinnerLoader = () => {
   return (
-    <div role="status">
+    <div role="status" className="flex items-center justify-center">
       <svg
         aria-hidden="true"
-        className="inline w-5 h-5 text-gray-200 animate-spin dark:text-gray-600"
+        className="w-5 h-5 animate-spin text-gray-300 dark:text-white-600 fill-red-600"
         viewBox="0 0 100 101"
-        fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path

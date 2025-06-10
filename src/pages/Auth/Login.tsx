@@ -5,6 +5,7 @@ import {
   type ChangeEvent,
 } from "react";
 import Input from "../../components/Inputs/Input";
+import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -22,6 +23,7 @@ const validateEmail = (email: string): boolean => {
 const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const { updateUser } = useContext(UserContext)!;
@@ -29,13 +31,16 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!validateEmail(email)) {
+      setIsLoading(false);
       setError("Please enter a valid email address");
       return;
     }
 
     if (!password) {
+      setIsLoading(false);
       setError("Password must be provided");
       return;
     }
@@ -49,7 +54,7 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
       });
 
       const { token } = response.data;
-
+      setIsLoading(false);
       if (token) {
         localStorage.setItem("token", token);
         updateUser(response.data);
@@ -62,6 +67,7 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
       } else {
         setError("An error occurred. Please try again later.");
       }
+      setIsLoading(false);
     }
   };
 
@@ -94,9 +100,13 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
 
         {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
 
+        { isLoading ? <button type="submit" className="btn-primary">
+          <SpinnerLoader />
+        </button> :
         <button type="submit" className="btn-primary">
           LOGIN
-        </button>
+        </button> }
+
 
         <p className="text-[13px] text-slate-800 mt-3">
           Don't have an account?{" "}
