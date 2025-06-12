@@ -137,16 +137,17 @@ const InterviewPrep: React.FC = () => {
     if (sessionId) {
       fetchSessionDetailsById();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessionId]);
 
   return (
     <DashboardLayout>
       <RoleInfoHeader
-        role={sessionData?.role || ""}
-        topicToFocus={sessionData?.topicToFocus || ""}
-        experience={sessionData?.experience || "--"}
-        questions={sessionData?.questions?.length || "--"}
-        description={sessionData?.description || ""}
+        role={sessionData?.role ?? ""}
+        topicToFocus={sessionData?.topicToFocus ?? ""}
+        experience={sessionData?.experience ?? "--"}
+        questions={sessionData?.questions?.length ?? "--"}
+        description={sessionData?.description ?? ""}
         lastUpdated={
           sessionData?.updatedAt
             ? moment(sessionData.updatedAt).format("Do MMM YYYY")
