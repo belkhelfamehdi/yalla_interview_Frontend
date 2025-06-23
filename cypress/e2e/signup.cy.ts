@@ -1,0 +1,20 @@
+describe('Sign up flow', () => {
+  it('submits form and redirects to dashboard', () => {
+    cy.intercept('POST', '/api/auth/register', {
+      statusCode: 200,
+      body: { token: 'abc', name: 'Jane' },
+    }).as('register')
+
+    cy.visit('/')
+    cy.contains('Login / Sign Up').click()
+    cy.contains('Sign Up').click()
+
+    cy.get('input[placeholder="John Doe"]').type('Jane Doe')
+    cy.get('input[placeholder="john@example.com"]').type('jane@example.com')
+    cy.get('input[placeholder="********"]').type('pass')
+
+    cy.contains('button', /sign up/i).click()
+    cy.wait('@register')
+    cy.url().should('include', '/dashboard')
+  })
+})
