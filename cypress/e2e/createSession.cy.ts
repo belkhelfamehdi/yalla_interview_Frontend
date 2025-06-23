@@ -1,6 +1,10 @@
 describe('Create session flow', () => {
   beforeEach(() => {
     localStorage.setItem('token', 'abc')
+    cy.intercept('GET', '/api/auth/profile', {
+      token: 'abc',
+      name: 'John',
+    })
     cy.intercept('GET', '/api/sessions/my-sessions', { sessions: [] })
     cy.visit('/dashboard')
     cy.contains('Add New').click()

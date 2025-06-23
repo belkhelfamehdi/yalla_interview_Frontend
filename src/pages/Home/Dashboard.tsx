@@ -9,7 +9,7 @@ import { API_PATHS } from "../../utils/apiPaths";
 import SummaryCard from "../../components/Cards/SummaryCard";
 import moment from "moment";
 import Modal from "../../components/Modal";
-import CreateSessionFrom from "./CreateSessionFrom";
+import CreateSessionForm from "./CreateSessionForm";
 import DeleteAlertContent from "../../components/DeleteAlertContent";
 
 interface Session {
@@ -99,7 +99,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       <Modal isOpen={openCreateModal} onClose={() => setOpenCreateModal(false)} hideHeader={true}>
-        <CreateSessionFrom />
+        <CreateSessionForm />
       </Modal>
 
       <Modal

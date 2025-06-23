@@ -10,7 +10,7 @@ import { API_PATHS } from '../../utils/apiPaths'
 
 vi.mock('../../utils/axiosInstance')
 vi.mock('../../components/layouts/Navbar', () => ({ default: () => <div>nav</div> }))
-vi.mock('../Home/CreateSessionFrom', () => ({ default: () => <div>form</div> }))
+vi.mock('../Home/CreateSessionForm', () => ({ default: () => <div>form</div> }))
 vi.mock('../../components/Modal', () => ({
   default: ({ isOpen, children }: any) => (isOpen ? <div data-testid='modal'>{children}</div> : null),
 }))

@@ -52,3 +52,24 @@ export default tseslint.config({
   },
 })
 ```
+
+
+## Testing
+
+Before running any tests, make sure project dependencies are installed using:
+
+```bash
+npm install
+```
+
+Run the unit and integration test suite with:
+
+```bash
+npm test
+```
+
+End-to-end tests are executed with Cypress. Ensure the development server is running (via `npm run dev`) and then run:
+
+```bash
+npm run test:e2e
+```

@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import Navbar from '../Navbar'
 import { MemoryRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 vi.mock('../../Cards/ProfileInfoCard', () => ({
   default: () => <div>profile</div>,

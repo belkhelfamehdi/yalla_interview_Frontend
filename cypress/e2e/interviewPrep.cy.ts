@@ -1,6 +1,7 @@
 describe('Interview preparation page', () => {
   beforeEach(() => {
     localStorage.setItem('token', 'abc')
+    cy.intercept('GET', '/api/auth/profile', { token: 'abc', name: 'John' })
     cy.intercept('GET', '/api/sessions/1', {
       session: {
         _id: '1',
