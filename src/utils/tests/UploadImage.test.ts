@@ -1,19 +1,22 @@
 import uploadImage from '../UploadImage'
 import { API_PATHS } from '../apiPaths'
-import axiosInstance from '../axiosInstance'
 import { vi } from 'vitest'
 
-vi.mock('../axiosInstance')
+const mockPost = vi.fn()
 
-const mockedAxios = vi.mocked(axiosInstance)
+vi.mock('../axiosInstance', () => ({
+  default: {
+    post: mockPost,
+  }
+}))
 
 describe('uploadImage', () => {
   it('posts form data to upload endpoint', async () => {
-    mockedAxios.post.mockResolvedValue({ data: 'ok' })
+    mockPost.mockResolvedValue({ data: 'ok' })
     const file = new File(['1'], 'a.png', { type: 'image/png' })
     const data = await uploadImage(file)
-    expect(mockedAxios.post).toHaveBeenCalled()
-    const call = mockedAxios.post.mock.calls[0]
+    expect(mockPost).toHaveBeenCalled()
+    const call = mockPost.mock.calls[0]
     expect(call[0]).toBe(API_PATHS.IMAGE.UPLOAD_IMAGE)
     expect(call[1] instanceof FormData).toBe(true)
     expect(data).toBe('ok')

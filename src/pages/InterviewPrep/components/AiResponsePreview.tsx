@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable */
 import React, { useState } from 'react';
 import { LuCheck, LuCode, LuCopy } from 'react-icons/lu';
 import ReactMarkdown from 'react-markdown';

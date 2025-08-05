@@ -5,15 +5,18 @@ import { vi } from 'vitest'
 import Login from '../Auth/Login'
 import { UserContext } from '../../context/userContext'
 import { API_PATHS } from '../../utils/apiPaths'
-import axiosInstance from '../../utils/axiosInstance'
 
-vi.mock('../../utils/axiosInstance')
+const mockPost = vi.fn()
 
-const mockedAxios = vi.mocked(axiosInstance)
+vi.mock('../../utils/axiosInstance', () => ({
+  default: {
+    post: mockPost,
+  }
+}))
 
 describe('Login page integration', () => {
   it('submits credentials and updates user', async () => {
-    mockedAxios.post.mockResolvedValue({ data: { token: 'token', name: 'John' } })
+    mockPost.mockResolvedValue({ data: { token: 'token', name: 'John' } })
     const updateUser = vi.fn()
 
     render(
@@ -28,7 +31,7 @@ describe('Login page integration', () => {
     await userEvent.type(screen.getByPlaceholderText('********'), 'pass123')
     await userEvent.click(screen.getByRole('button', { name: /login/i }))
 
-    expect(mockedAxios.post).toHaveBeenCalledWith(API_PATHS.AUTH.LOGIN, {
+    expect(mockPost).toHaveBeenCalledWith(API_PATHS.AUTH.LOGIN, {
       email: 'john@example.com',
       password: 'pass123',
     })

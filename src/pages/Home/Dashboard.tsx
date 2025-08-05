@@ -79,16 +79,16 @@ const Dashboard: React.FC = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto py-8">
+      <div className="container py-8 mx-auto">
         {/* Header Section */}
         <div className="mb-8">
-          <div className="glass-card rounded-3xl p-8 mb-6">
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between space-y-4 lg:space-y-0">
+          <div className="p-8 mb-6 glass-card rounded-3xl">
+            <div className="flex flex-col items-start justify-between space-y-4 lg:flex-row lg:items-center lg:space-y-0">
               <div>
-                <h1 className="text-4xl font-bold text-gray-800 mb-2">
+                <h1 className="mb-2 text-4xl font-bold text-gray-800">
                   Welcome Back! 👋
                 </h1>
-                <p className="text-gray-600 text-lg">
+                <p className="text-lg text-gray-600">
                   Ready to ace your next interview? Let's prepare together.
                 </p>
               </div>
@@ -123,28 +123,28 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Search and Filter Bar */}
-          <div className="glass-card rounded-2xl p-6">
-            <div className="flex flex-col lg:flex-row items-center justify-between space-y-4 lg:space-y-0">
+          <div className="p-6 glass-card rounded-2xl">
+            <div className="flex flex-col items-center justify-between space-y-4 lg:flex-row lg:space-y-0">
               <div className="flex-1 lg:max-w-md">
                 <div className="relative">
-                  <LuSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
+                  <LuSearch className="absolute text-lg text-gray-400 transform -translate-y-1/2 left-4 top-1/2" />
                   <input
                     type="text"
                     placeholder="Search sessions..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="input-modern pl-12 w-full"
+                    className="w-full pl-12 input-modern"
                   />
                 </div>
               </div>
               
               <div className="flex items-center space-x-4">
-                <button className="btn-secondary flex items-center space-x-2">
+                <button className="flex items-center space-x-2 btn-secondary">
                   <LuFilter className="text-lg" />
                   <span>Filter</span>
                 </button>
                 
-                <div className="flex items-center space-x-2 glass-effect rounded-xl p-2">
+                <div className="flex items-center p-2 space-x-2 glass-effect rounded-xl">
                   <button
                     onClick={() => setViewMode('grid')}
                     className={`p-2 rounded-lg transition-all ${
@@ -198,15 +198,15 @@ const Dashboard: React.FC = () => {
 
         {/* Empty State */}
         {filteredSessions.length === 0 && (
-          <div className="text-center py-16">
-            <div className="glass-card rounded-3xl p-12 max-w-md mx-auto">
-              <div className="w-24 h-24 bg-gradient-to-br from-red-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
-                <LuPlus className="text-white text-3xl" />
+          <div className="py-16 text-center">
+            <div className="max-w-md p-12 mx-auto glass-card rounded-3xl">
+              <div className="flex items-center justify-center w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-red-400 to-pink-500">
+                <LuPlus className="text-3xl text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-4">
+              <h3 className="mb-4 text-2xl font-bold text-gray-800">
                 {searchTerm ? 'No sessions found' : 'Start Your Journey'}
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="mb-6 text-gray-600">
                 {searchTerm 
                   ? 'Try adjusting your search terms' 
                   : 'Create your first interview preparation session and begin practicing today!'
@@ -215,7 +215,7 @@ const Dashboard: React.FC = () => {
               {!searchTerm && (
                 <button
                   onClick={() => setOpenCreateModal(true)}
-                  className="btn-primary inline-flex items-center space-x-2"
+                  className="inline-flex items-center space-x-2 btn-primary"
                 >
                   <LuPlus className="text-lg" />
                   <span>Create Session</span>
@@ -227,7 +227,7 @@ const Dashboard: React.FC = () => {
 
         {/* Floating Action Button */}
         <button
-          className="fixed bottom-8 right-8 w-16 h-16 bg-gradient-to-r from-red-500 to-pink-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-all duration-300 animate-glow z-50"
+          className="fixed z-50 flex items-center justify-center w-16 h-16 text-white transition-all duration-300 rounded-full shadow-2xl bottom-8 right-8 bg-gradient-to-r from-red-500 to-pink-600 hover:scale-110 animate-glow"
           onClick={() => setOpenCreateModal(true)}
         >
           <LuPlus className="text-2xl" />

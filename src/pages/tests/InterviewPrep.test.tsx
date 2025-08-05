@@ -5,18 +5,24 @@ import { vi } from 'vitest'
 
 import InterviewPrep from '../InterviewPrep/InterviewPrep'
 import { UserContext } from '../../context/userContext'
-import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
 
-vi.mock('../../utils/axiosInstance')
-vi.mock('../../components/layouts/Navbar', () => ({ default: () => <div>nav</div> }))
-vi.mock('../InterviewPrep/components/AiResponsePreview', () => ({ default: ({ content }: any) => <div>{content}</div> }))
+const mockGet = vi.fn()
+const mockPost = vi.fn()
 
-const mockedAxios = vi.mocked(axiosInstance)
+vi.mock('../../utils/axiosInstance', () => ({
+  default: {
+    get: mockGet,
+    post: mockPost,
+  }
+}))
+
+vi.mock('../../components/layouts/Navbar', () => ({ default: () => <div>nav</div> }))
+vi.mock('../InterviewPrep/components/AiResponsePreview', () => ({ default: ({ content }: { content: string }) => <div>{content}</div> }))
 
 describe('InterviewPrep page integration', () => {
   it('loads session and shows explanation drawer', async () => {
-    mockedAxios.get.mockResolvedValue({ data: { session: {
+    mockGet.mockResolvedValue({ data: { session: {
       _id: '1',
       role: 'FE',
       topicToFocus: 'React',
@@ -25,7 +31,7 @@ describe('InterviewPrep page integration', () => {
       updatedAt: '',
       questions: [{ _id: 'q1', question: 'Q1', answer: 'A1', isPinned: false }],
     } } })
-    mockedAxios.post.mockResolvedValue({ data: { title: 'Title', explanation: 'Exp' } })
+    mockPost.mockResolvedValue({ data: { title: 'Title', explanation: 'Exp' } })
 
     render(
       <MemoryRouter initialEntries={['/interview-prep/1']}>
@@ -40,7 +46,7 @@ describe('InterviewPrep page integration', () => {
     expect(await screen.findByText('Q1')).toBeInTheDocument()
 
     await userEvent.click(screen.getByText(/learn more/i))
-    expect(mockedAxios.post).toHaveBeenCalledWith(API_PATHS.AI.GENERATE_EXPLANATION, { question: 'Q1' })
+    expect(mockPost).toHaveBeenCalledWith(API_PATHS.AI.GENERATE_EXPLANATION, { question: 'Q1' })
     expect(await screen.findByText('Exp')).toBeInTheDocument()
   })
 })

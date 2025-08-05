@@ -5,24 +5,29 @@ import { vi } from 'vitest'
 
 import SignUp from '../Auth/SignUp'
 import { UserContext } from '../../context/userContext'
-import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
 import uploadImage from '../../utils/UploadImage'
 
-vi.mock('../../utils/axiosInstance')
+const mockPost = vi.fn()
+
+vi.mock('../../utils/axiosInstance', () => ({
+  default: {
+    post: mockPost,
+  }
+}))
+
 vi.mock('../../utils/UploadImage')
 vi.mock('../../components/Inputs/ProfilePhotoSelector', () => ({
-  default: ({ setImage }: any) => (
+  default: ({ setImage }: { setImage: (file: File | null) => void }) => (
     <input type="file" data-testid="photo-input" onChange={e => setImage(e.target.files?.[0] ?? null)} />
   ),
 }))
 
-const mockedAxios = vi.mocked(axiosInstance)
 const mockedUpload = vi.mocked(uploadImage)
 
 describe('SignUp page integration', () => {
   it('submits form data and updates user', async () => {
-    mockedAxios.post.mockResolvedValue({ data: { token: 't', name: 'Jane' } })
+    mockPost.mockResolvedValue({ data: { token: 't', name: 'Jane' } })
     const updateUser = vi.fn()
 
     render(
@@ -38,7 +43,7 @@ describe('SignUp page integration', () => {
     await userEvent.type(screen.getByPlaceholderText('********'), 'pass')
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 
-    expect(mockedAxios.post).toHaveBeenCalledWith(API_PATHS.AUTH.REGISTER, {
+    expect(mockPost).toHaveBeenCalledWith(API_PATHS.AUTH.REGISTER, {
       name: 'Jane Doe',
       email: 'jane@example.com',
       password: 'pass',
@@ -49,7 +54,7 @@ describe('SignUp page integration', () => {
 
   it('uploads image when selected', async () => {
     mockedUpload.mockResolvedValue({ imageUrl: 'img.png' })
-    mockedAxios.post.mockResolvedValue({ data: { token: 'z', name: 'Jane' } })
+    mockPost.mockResolvedValue({ data: { token: 'z', name: 'Jane' } })
     const updateUser = vi.fn()
 
     render(
@@ -68,7 +73,7 @@ describe('SignUp page integration', () => {
     await userEvent.click(screen.getByRole('button', { name: /sign up/i }))
 
     expect(mockedUpload).toHaveBeenCalledWith(file)
-    expect(mockedAxios.post).toHaveBeenCalledWith(API_PATHS.AUTH.REGISTER, expect.objectContaining({
+    expect(mockPost).toHaveBeenCalledWith(API_PATHS.AUTH.REGISTER, expect.objectContaining({
       profileImageUrl: 'img.png',
     }))
   })

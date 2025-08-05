@@ -27,21 +27,21 @@ const LandingPage: React.FC = () => {
 
   return (
     <>
-      <div className='min-h-screen bg-gradient-to-br from-red-50 via-white to-pink-50 relative overflow-hidden'>
+      <div className='relative min-h-screen overflow-hidden bg-gradient-to-br from-red-50 via-white to-pink-50'>
         {/* Animated background elements */}
-        <div className='absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-red-400/20 to-pink-600/20 rounded-full blur-3xl animate-float' />
-        <div className='absolute bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-pink-400/20 to-rose-600/20 rounded-full blur-3xl animate-float' style={{ animationDelay: '2s' }} />
-        <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-red-400/10 to-pink-600/10 rounded-full blur-3xl animate-float' style={{ animationDelay: '4s' }} />
+        <div className='absolute rounded-full top-20 left-10 w-72 h-72 bg-gradient-to-br from-red-400/20 to-pink-600/20 blur-3xl animate-float' />
+        <div className='absolute rounded-full bottom-20 right-10 w-96 h-96 bg-gradient-to-br from-pink-400/20 to-rose-600/20 blur-3xl animate-float' style={{ animationDelay: '2s' }} />
+        <div className='absolute w-64 h-64 transform -translate-x-1/2 -translate-y-1/2 rounded-full top-1/2 left-1/2 bg-gradient-to-r from-red-400/10 to-pink-600/10 blur-3xl animate-float' style={{ animationDelay: '4s' }} />
         
-        <div className='container mx-auto px-6 lg:px-20 pt-6 pb-20 relative z-10'>
+        <div className='container relative z-10 px-6 pt-6 pb-20 mx-auto lg:px-20'>
           {/* Header */}
-          <header className='flex justify-between items-center mb-20'>
+          <header className='flex items-center justify-between mb-20'>
             <div className='flex items-center space-x-3'>
               <div className='relative'>
                 <div className='absolute inset-0 bg-gradient-to-r from-red-500 to-pink-600 rounded-xl blur opacity-20'></div>
                 <img src={Logo} className='relative w-32 h-auto rounded-xl' alt="Yalla Interview Logo" />
               </div>
-              <span className='font-bold text-xl bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent'>
+              <span className='text-xl font-bold text-transparent bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text'>
                 YallaInterview
               </span>
             </div>
@@ -49,7 +49,7 @@ const LandingPage: React.FC = () => {
               <ProfileInfoCard />
             ) : (
               <button
-                className='btn-primary flex items-center space-x-2'
+                className='bg-gradient-to-r from-red-500 to-pink-600 text-white px-6 py-3 rounded-xl font-semibold flex items-center space-x-2 hover:from-red-600 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5'
                 onClick={() => setOpenAuthModal(true)}
               >
                 <span>Get Started</span>
@@ -59,36 +59,33 @@ const LandingPage: React.FC = () => {
           </header>
 
           {/* Hero Section */}
-          <div className='flex flex-col lg:flex-row items-center mb-32'>
-            <div className='w-full lg:w-1/2 lg:pr-12 mb-12 lg:mb-0'>
+          <div className='flex flex-col items-center mb-32 lg:flex-row'>
+            <div className='w-full mb-12 lg:w-1/2 lg:pr-12 lg:mb-0'>
               <div className='flex items-center justify-start mb-6'>
-                <div className='flex items-center gap-2 text-sm text-red-600 font-semibold bg-red-50 px-4 py-2 rounded-full border border-red-200'>
+                <div className='flex items-center gap-2 px-4 py-2 text-sm font-semibold text-red-600 border border-red-200 rounded-full bg-red-50'>
                   <LuSparkles className='text-lg' /> AI POWERED
                 </div>
               </div>
 
-              <h1 className='text-5xl lg:text-6xl font-bold mb-8 leading-tight'>
+              <h1 className='mb-8 text-5xl font-bold leading-tight lg:text-6xl'>
                 Ace Your Next Interview with{' '}
-                <span className='bg-gradient-to-r from-red-600 via-pink-600 to-rose-600 bg-clip-text text-transparent'>
+                <span className='text-transparent bg-gradient-to-r from-red-600 via-pink-600 to-rose-600 bg-clip-text'>
                   AI-Powered
                 </span>{' '}
                 Preparation
               </h1>
 
-              <p className='text-xl text-gray-600 mb-8 leading-relaxed'>
+              <p className='mb-8 text-xl leading-relaxed text-gray-600'>
                 Get personalized interview questions and model answers tailored to your role and experience level. Practice with confidence.
               </p>
 
-              <div className='flex flex-col sm:flex-row gap-4 mb-8'>
+              <div className='flex flex-col gap-4 mb-8 sm:flex-row'>
                 <button
-                  className='btn-primary flex items-center justify-center space-x-3 px-8 py-4 text-lg'
+                  className='flex items-center justify-center px-8 py-4 space-x-3 text-lg font-semibold text-white transition-all duration-300 transform shadow-lg bg-gradient-to-r from-red-500 to-pink-600 rounded-xl hover:from-red-600 hover:to-pink-700 hover:shadow-xl hover:-translate-y-1'
                   onClick={handleCTA}
                 >
                   <span>Start Preparing</span>
                   <LuArrowRight className='text-xl' />
-                </button>
-                <button className='btn-secondary flex items-center justify-center space-x-3 px-8 py-4 text-lg'>
-                  <span>View Demo</span>
                 </button>
               </div>
 
@@ -103,17 +100,17 @@ const LandingPage: React.FC = () => {
                   <span>AI Generated</span>
                 </div>
                 <div className='flex items-center space-x-2'>
-                  <div className='w-2 h-2 bg-rose-400 rounded-full'></div>
+                  <div className='w-2 h-2 rounded-full bg-rose-400'></div>
                   <span>Role Specific</span>
                 </div>
               </div>
             </div>
 
-            <div className='w-full lg:w-1/2 relative'>
+            <div className='relative w-full lg:w-1/2'>
               <div className='relative'>
-                <div className='absolute inset-0 bg-gradient-to-r from-red-500 to-pink-600 rounded-3xl blur-2xl opacity-20 transform rotate-6'></div>
+                <div className='absolute inset-0 transform bg-gradient-to-r from-red-500 to-pink-600 rounded-3xl blur-2xl opacity-20 rotate-6'></div>
                 <img 
-                  className='relative w-full rounded-3xl shadow-2xl animate-float' 
+                  className='relative w-full shadow-2xl rounded-3xl animate-float' 
                   src={heroImage} 
                   alt="Interview preparation dashboard" 
                 />
@@ -123,31 +120,31 @@ const LandingPage: React.FC = () => {
 
           {/* Features Section */}
           <div className="mb-32">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-800 mb-6">
+            <div className="mb-16 text-center">
+              <h2 className="mb-6 text-4xl font-bold text-gray-800">
                 Smart Features. Real Results.
               </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              <p className="max-w-2xl mx-auto text-xl text-gray-600">
                 Discover the tools that help you prep faster, smarter, and more effectively.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
               {APP_FEATURES.map((feature) => (
                 <div
                   key={feature.id}
-                  className="card-modern group relative overflow-hidden"
+                  className="relative overflow-hidden card-modern group"
                 >
-                  <div className="absolute top-4 right-4 w-8 h-8 bg-gradient-to-br from-red-500 to-pink-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+                  <div className="absolute flex items-center justify-center w-8 h-8 text-sm font-bold text-white rounded-lg top-4 right-4 bg-gradient-to-br from-red-500 to-pink-600">
                     {feature.id}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 group-hover:text-red-600 mb-4 transition-colors">
+                  <h3 className="mb-4 text-xl font-bold text-gray-800 transition-colors group-hover:text-red-600">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="leading-relaxed text-gray-600">
                     {feature.description}
                   </p>
-                  <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-pink-600 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
+                  <div className="absolute bottom-0 left-0 w-full h-1 transition-transform duration-300 origin-left transform scale-x-0 bg-gradient-to-r from-red-500 to-pink-600 group-hover:scale-x-100"></div>
                 </div>
               ))}
             </div>
@@ -155,8 +152,8 @@ const LandingPage: React.FC = () => {
         </div>
 
         {/* Footer */}
-        <footer className='glass-effect border-t border-white/20 text-center py-8'>
-          <div className='container mx-auto px-6'>
+        <footer className='py-8 text-center border-t glass-effect border-white/20'>
+          <div className='container px-6 mx-auto'>
             <p className='text-white/80'>
               Made with ❤️ by Sparky • © 2025 YallaInterview
             </p>
