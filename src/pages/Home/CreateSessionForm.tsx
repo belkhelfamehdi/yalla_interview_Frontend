@@ -1,6 +1,6 @@
 import React, { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import Input from "../../components/Inputs/Input";
+import { LuRocket, LuBriefcase, LuClock, LuTarget, LuFileText } from "react-icons/lu";
 import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -75,53 +75,105 @@ const CreateSessionForm: React.FC = () => {
   };
 
   return (
-    <div className="w-[90vw] md:w-[35vw] p-7 flex flex-col justify-center">
-      <h3 className="text-lg font-semibold text-black">
-        Start a New Interview Journey
-      </h3>
-      <p className="text-xs text-slate-700 mt-[5px] mb-3">
-        Fill out a few quick details and unlock your personalized set of interview questions!
-      </p>
+    <div className="w-[95vw] md:w-[40vw] max-w-2xl">
+      <div className="glass-card rounded-3xl p-8">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <LuRocket className="text-white text-2xl" />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+            Create Your Interview Session
+          </h3>
+          <p className="text-gray-600">
+            Set up a personalized interview preparation session tailored to your needs
+          </p>
+        </div>
 
-      <form onSubmit={handleCreateSession} className="flex flex-col gap-3">
-        <Input
-          value={formData.role}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("role", e.target.value)}
-          label="Target Role"
-          placeholder="e.g., Frontend Developer, UI/UX Designer, etc."
-          type="text"
-        />
+        <form onSubmit={handleCreateSession} className="space-y-6">
+          {/* Role Input */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
+              <LuBriefcase className="text-red-500" />
+              <span>Target Role *</span>
+            </label>
+            <input
+              value={formData.role}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("role", e.target.value)}
+              placeholder="e.g., Frontend Developer, UI/UX Designer, etc."
+              type="text"
+              className="input-modern w-full"
+            />
+          </div>
 
-        <Input
-          value={formData.experience}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("experience", e.target.value)}
-          label="Years of Experience"
-          placeholder="e.g., 1 year, 3 years, 5+ years"
-          type="number"
-        />
+          {/* Experience Input */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
+              <LuClock className="text-pink-500" />
+              <span>Years of Experience *</span>
+            </label>
+            <input
+              value={formData.experience}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("experience", e.target.value)}
+              placeholder="e.g., 1, 3, 5"
+              type="number"
+              className="input-modern w-full"
+            />
+          </div>
 
-        <Input
-          value={formData.topicToFocus}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("topicToFocus", e.target.value)}
-          label="Topics to Focus"
-          placeholder="e.g., React, CSS, Algorithms, etc."
-          type="text"
-        />
+          {/* Topics Input */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
+              <LuTarget className="text-red-600" />
+              <span>Topics to Focus *</span>
+            </label>
+            <input
+              value={formData.topicToFocus}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("topicToFocus", e.target.value)}
+              placeholder="e.g., React, CSS, Algorithms, etc."
+              type="text"
+              className="input-modern w-full"
+            />
+          </div>
 
-        <Input
-          value={formData.description}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("description", e.target.value)}
-          label="Description"
-          placeholder="e.g., I want to focus on React and CSS."
-          type="text"
-        />
+          {/* Description Input */}
+          <div className="space-y-2">
+            <label className="flex items-center space-x-2 text-sm font-semibold text-gray-700">
+              <LuFileText className="text-rose-500" />
+              <span>Description</span>
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleChange("description", e.target.value)}
+              placeholder="e.g., I want to focus on React and CSS."
+              className="input-modern w-full h-24 resize-none"
+            />
+          </div>
 
-        {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+          {/* Error Message */}
+          {error && (
+            <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
+              <p className="text-red-600 text-sm font-medium">{error}</p>
+            </div>
+          )}
 
-        <button type="submit" className="btn-primary w-full mt-2" disabled={isLoading}>
-          {isLoading && <SpinnerLoader />} Create Session
-        </button>
-      </form>
+          {/* Submit Button */}
+          <button 
+            type="submit" 
+            className="w-full btn-primary flex items-center justify-center space-x-3 py-4 text-lg" 
+            disabled={isLoading}
+          >
+            {isLoading && <SpinnerLoader />}
+            {!isLoading && <LuRocket className="text-xl" />}
+            <span>{isLoading ? 'Creating Session...' : 'Create Session'}</span>
+          </button>
+        </form>
+
+        {/* Required fields note */}
+        <p className="text-xs text-gray-500 text-center mt-6">
+          * Required fields
+        </p>
+      </div>
     </div>
   );
 };

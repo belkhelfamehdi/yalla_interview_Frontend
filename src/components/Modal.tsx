@@ -1,4 +1,5 @@
 import React, { type ReactNode } from 'react';
+import { LuX } from 'react-icons/lu';
 
 interface ModalProps {
   children: ReactNode;
@@ -12,36 +13,22 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, onClose, title, hideHea
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black/40">
-      <div className="relative flex flex-col bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center w-full h-full bg-black/60 backdrop-blur-sm p-4">
+      <div className="relative flex flex-col glass-card rounded-3xl overflow-hidden max-w-full max-h-[90vh] animate-float">
         {/* Modal Header */}
         {!hideHeader && (
-          <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <h3 className="md:text-lg font-medium text-gray-900">{title}</h3>
+          <div className="flex items-center justify-between p-6 border-b border-white/20">
+            <h3 className="text-xl font-bold text-gray-800">{title}</h3>
           </div>
         )}
 
         {/* Close Button */}
         <button
           type="button"
-          className="text-gray-400 bg-transparent hover:bg-red-100 hover:text-gray-900 rounded-lg text-sm w-8 h-8 flex justify-center items-center absolute top-3.5 right-3.5 cursor-pointer"
+          className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full glass-effect text-gray-600 hover:text-gray-800 hover:bg-white/20 transition-all duration-200"
           onClick={onClose}
         >
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
+          <LuX className="text-xl" />
         </button>
 
         {/* Modal Content */}
