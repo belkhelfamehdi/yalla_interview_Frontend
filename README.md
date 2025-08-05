@@ -73,3 +73,14 @@ End-to-end tests are executed with Cypress. Ensure the development server is run
 ```bash
 npm run test:e2e
 ```
+
+## Environment Variables
+
+The frontend expects the backend base URL to be provided via the `VITE_API_BASE_URL` environment variable. Create a `.env` file by copying `.env.example` and adjust the value to match your backend server:
+
+```bash
+cp .env.example .env
+echo "VITE_API_BASE_URL=http://localhost:3000" >> .env  # update with your backend URL
+```
+
+The application will use this value for all API requests.
