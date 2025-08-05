@@ -33,7 +33,7 @@ const ProfileInfoCard: React.FC = () => {
 
   return (
     <div className="flex items-center space-x-4">
-      <div className="flex items-center space-x-3 glass-effect rounded-full px-4 py-2">
+      <div className="flex items-center space-x-3 bg-gray-100 rounded-full px-4 py-2 shadow-sm">
         <div className="relative">
           {user.profileImageUrl ? (
             <img
@@ -49,11 +49,11 @@ const ProfileInfoCard: React.FC = () => {
           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
         </div>
         
-        <div className="text-white">
+        <div className="text-gray-800 drop-shadow-sm">
           <div className="font-semibold text-sm">
             {user.name || "User"}
           </div>
-          <div className="text-xs text-white/60">
+          <div className="text-xs text-gray-600">
             Online
           </div>
         </div>
@@ -61,7 +61,7 @@ const ProfileInfoCard: React.FC = () => {
 
       <button
         onClick={handleLogout}
-        className="btn-secondary flex items-center space-x-2 px-3 py-2 text-sm group"
+        className="bg-red-500 hover:bg-red-600 text-white flex items-center space-x-2 px-4 py-2 text-sm rounded-lg transition-all duration-200 group shadow-lg"
       >
         <LuLogOut className="text-lg group-hover:rotate-12 transition-transform" />
         <span>Logout</span>

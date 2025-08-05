@@ -72,13 +72,15 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
   };
 
   return (
-    <div className="w-[90vw] md:w-[33vw] p-7 flex flex-col justify-center">
-      <h3 className="text-lg font-semibold text-black">Welcome Back</h3>
-      <p className="text-xs text-slate-700 mt-[5px] mb-6">
-        Login to your account
-      </p>
+    <div className="w-[90vw] md:w-[420px] p-8 flex flex-col justify-center">
+      <div className="mb-8">
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h3>
+        <p className="text-gray-600">
+          Login to your account
+        </p>
+      </div>
 
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="space-y-1">
         <Input
           value={email}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -98,25 +100,36 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
           placeholder="********"
         />
 
-        {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
+            <p className="text-red-700 text-sm">{error}</p>
+          </div>
+        )}
 
-        { isLoading ? <button type="submit" className="btn-primary">
-          <SpinnerLoader />
-        </button> :
-        <button type="submit" className="btn-primary">
-          LOGIN
-        </button> }
+        <div className="pt-4">
+          {isLoading ? (
+            <button type="submit" className="w-full btn-primary flex items-center justify-center py-3" disabled>
+              <SpinnerLoader />
+            </button>
+          ) : (
+            <button type="submit" className="w-full btn-primary py-3 text-lg font-semibold">
+              LOGIN
+            </button>
+          )}
+        </div>
 
-
-        <p className="text-[13px] text-slate-800 mt-3">
-          Don't have an account?{" "}
-          <button
-            className="font-medium text-red-700 underline cursor-pointer"
-            onClick={() => setCurrentPage("signup")}
-          >
-            Sign Up
-          </button>
-        </p>
+        <div className="text-center pt-6">
+          <p className="text-gray-600">
+            Don't have an account?{" "}
+            <button
+              type="button"
+              className="font-semibold text-red-600 hover:text-red-700 underline transition-colors"
+              onClick={() => setCurrentPage("signup")}
+            >
+              Sign Up
+            </button>
+          </p>
+        </div>
       </form>
     </div>
   );

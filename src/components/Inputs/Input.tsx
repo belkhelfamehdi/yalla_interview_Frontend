@@ -17,24 +17,24 @@ const Input: React.FC<InputProps> = ({ value, onChange, label, type, placeholder
   };
 
   return (
-    <div>
-      <label className="text-[13px] text-slate-800">{label}</label>
+    <div className="mb-4">
+      <label className="block text-sm font-medium text-gray-700 mb-2">{label}</label>
 
-      <div className="input-box">
+      <div className="relative flex items-center bg-gray-50 border border-gray-300 rounded-lg px-4 py-3 focus-within:border-red-500 focus-within:ring-2 focus-within:ring-red-200 transition-all duration-200">
         <input
           type={type === 'password' && showPassword ? 'text' : type}
           placeholder={placeholder}
-          className="w-full bg-transparent outline-none"
+          className="flex-1 bg-transparent outline-none text-gray-900 placeholder-gray-500"
           value={value}
           onChange={onChange}
         />
 
         {type === 'password' && (
-          <button type="button" onClick={toggleShowPassword}>
+          <button type="button" onClick={toggleShowPassword} className="ml-2 text-gray-400 hover:text-gray-600 transition-colors">
             {showPassword ? (
-              <FaRegEyeSlash className="text-slate-400 cursor-pointer" />
+              <FaRegEyeSlash className="text-lg" />
             ) : (
-              <FaRegEye className="text-primary cursor-pointer" />
+              <FaRegEye className="text-lg" />
             )}
           </button>
         )}
