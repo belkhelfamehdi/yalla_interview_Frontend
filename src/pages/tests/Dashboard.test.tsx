@@ -5,17 +5,23 @@ import { vi } from 'vitest'
 
 import Dashboard from '../Home/Dashboard'
 import { UserContext } from '../../context/userContext'
-import axiosInstance from '../../utils/axiosInstance'
-import { API_PATHS } from '../../utils/apiPaths'
 
-vi.mock('../../utils/axiosInstance')
+const mockGet = vi.fn()
+
+vi.mock('../../utils/axiosInstance', () => ({
+  default: {
+    get: mockGet,
+    post: vi.fn(),
+  }
+}))
+
 vi.mock('../../components/layouts/Navbar', () => ({ default: () => <div>nav</div> }))
 vi.mock('../Home/CreateSessionForm', () => ({ default: () => <div>form</div> }))
 vi.mock('../../components/Modal', () => ({
-  default: ({ isOpen, children }: any) => (isOpen ? <div data-testid='modal'>{children}</div> : null),
+  default: ({ isOpen, children }: { isOpen: boolean; children: React.ReactNode }) => (isOpen ? <div data-testid='modal'>{children}</div> : null),
 }))
 vi.mock('../../components/Cards/SummaryCard', () => ({
-  default: ({ role, onSelect, onDelete }: any) => (
+  default: ({ role, onSelect, onDelete }: { role: string; onSelect: () => void; onDelete: () => void }) => (
     <div onClick={onSelect}>
       <span>{role}</span>
       <button onClick={e => { e.stopPropagation(); onDelete() }}>delete</button>
@@ -25,15 +31,13 @@ vi.mock('../../components/Cards/SummaryCard', () => ({
 
 const navigateMock = vi.fn()
 vi.mock('react-router-dom', async () => {
-  const actual: any = await vi.importActual('react-router-dom')
+  const actual = await vi.importActual('react-router-dom')
   return { ...actual, useNavigate: () => navigateMock }
 })
 
-const mockedAxios = vi.mocked(axiosInstance)
-
 describe('Dashboard page integration', () => {
   it('fetches sessions and handles interactions', async () => {
-    mockedAxios.get.mockResolvedValue({ data: { sessions: [{ _id: '1', role: 'FE', topicToFocus: 'React', experience: 1, questions: [], description: 'desc', updatedAt: '' }] } })
+    mockGet.mockResolvedValue({ data: { sessions: [{ _id: '1', role: 'FE', topicToFocus: 'React', experience: 1, questions: [], description: 'desc', updatedAt: '' }] } })
 
     render(
       <MemoryRouter>

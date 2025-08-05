@@ -1,12 +1,26 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 import ProfileInfoCard from '../ProfileInfoCard'
 import { UserContext } from '../../../context/userContext'
-import { vi } from 'vitest'
 import { useNavigate } from 'react-router-dom'
 
+// Define types
+interface User {
+  name?: string;
+  profileImageUrl?: string;
+  token: string;
+}
+
+interface UserContextType {
+  user: User | null;
+  loading: boolean;
+  updateUser: (userData: User) => void;
+  clearUser: () => void;
+}
+
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual<any>('react-router-dom')
+  const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
     useNavigate: vi.fn(),
@@ -14,9 +28,9 @@ vi.mock('react-router-dom', async () => {
 })
 
 const navigateMock = vi.fn()
-;(useNavigate as unknown as vi.Mock).mockReturnValue(navigateMock)
+;(useNavigate as unknown as ReturnType<typeof vi.fn>).mockReturnValue(navigateMock)
 
-const renderWithContext = (value: any) =>
+const renderWithContext = (value: UserContextType) =>
   render(
     <UserContext.Provider value={value}>
       <ProfileInfoCard />
@@ -36,7 +50,7 @@ describe('ProfileInfoCard', () => {
 
     expect(screen.getByText('Jane')).toBeInTheDocument()
 
-    const clearSpy = vi.spyOn(window.localStorage.__proto__, 'clear')
+    const clearSpy = vi.spyOn(Storage.prototype, 'clear')
     await userEvent.click(screen.getByRole('button', { name: /logout/i }))
 
     expect(clearSpy).toHaveBeenCalled()
