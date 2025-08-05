@@ -111,7 +111,6 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
         <p className="text-[13px] text-slate-800 mt-3">
           Don't have an account?{" "}
           <button
-            type="button"
             className="font-medium text-red-700 underline cursor-pointer"
             onClick={() => setCurrentPage("signup")}
           >

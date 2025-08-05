@@ -10,13 +10,13 @@ describe('Sign up flow', () => {
 
     cy.visit('/')
     cy.contains('Get Started').click({ force: true })
-    cy.contains('Sign Up').click({ force: true })
+    cy.contains('Sign Up').click()
 
     cy.get('input[placeholder="John Doe"]').type('Jane Doe')
     cy.get('input[placeholder="john@example.com"]').type('jane@example.com')
     cy.get('input[placeholder="********"]').type('pass')
 
-    cy.contains('Sign Up').click()
+    cy.contains('SIGN UP').click()
     cy.wait('@register')
     cy.url().should('include', '/dashboard')
   })
