@@ -8,8 +8,8 @@ import Input from "../../components/Inputs/Input";
 import SpinnerLoader from "../../components/Loader/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
-import { debugLogin, testBackendConnection } from "../../utils/debugLogin";
-import DebugPanel from "../../components/DebugPanel";
+import axiosInstance from "../../utils/axiosInstance";
+import { API_PATHS } from "../../utils/apiPaths";
 import type { AxiosError } from "axios";
 
 interface LoginProps {
@@ -48,12 +48,10 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
     setError("");
 
     try {
-      // Test backend connection first
-      console.log('🔍 Testing backend connection...');
-      await testBackendConnection();
-      
-      // Use debug login to get detailed information
-      const response = await debugLogin(email, password);
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
 
       const { data } = response.data;
       setIsLoading(false);
@@ -114,18 +112,9 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
               <SpinnerLoader />
             </button>
           ) : (
-            <>
-              <button type="submit" className="w-full btn-primary py-3 text-lg font-semibold">
-                LOGIN
-              </button>
-              <button 
-                type="button" 
-                onClick={() => testBackendConnection()} 
-                className="w-full mt-2 bg-gray-600 text-white py-2 rounded hover:bg-gray-700 text-sm"
-              >
-                Test Backend Connection
-              </button>
-            </>
+            <button type="submit" className="w-full btn-primary py-3 text-lg font-semibold">
+              LOGIN
+            </button>
           )}
         </div>
 
@@ -142,8 +131,6 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
           </p>
         </div>
       </form>
-      
-      <DebugPanel />
     </div>
   );
 };

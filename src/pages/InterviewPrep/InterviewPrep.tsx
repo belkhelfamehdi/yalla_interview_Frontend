@@ -60,8 +60,8 @@ const InterviewPrep: React.FC = () => {
       if (response.data?.session) {
         setSessionData(response.data.session);
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
+      setErrorMsg("Failed to fetch session details. Please try again.");
     }
   };
 
@@ -95,8 +95,8 @@ const InterviewPrep: React.FC = () => {
       if (response.data?.question) {
         fetchSessionDetailsById();
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
+      toast.error("Failed to update question. Please try again.");
     }
   };
 
@@ -125,8 +125,7 @@ const InterviewPrep: React.FC = () => {
         toast.success("Questions Added Successfully");
         fetchSessionDetailsById();
       }
-    } catch (error) {
-      console.error("Error:", error);
+    } catch {
       toast.error("Failed to add questions. Please try again.");
     } finally {
       setIsUpdateLoader(false);

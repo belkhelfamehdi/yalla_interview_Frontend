@@ -46,8 +46,8 @@ const UserProvider: React.FC<Props> = ({ children }) => {
       try {
         const response = await axiosInstance.get<{success: boolean, data: User}>(API_PATHS.AUTH.GET_PROFILE);
         setUser(response.data.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      } catch {
+        localStorage.removeItem("token");
       } finally {
         setLoading(false);
       }

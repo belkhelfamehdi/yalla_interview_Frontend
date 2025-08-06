@@ -46,8 +46,8 @@ const Dashboard: React.FC = () => {
         API_PATHS.SESSION.GET_ALL
       );
       setSessions(response.data.sessions);
-    } catch (error) {
-      console.error("Error fetching session data:", error);
+    } catch {
+      toast.error("Failed to fetch sessions. Please try again.");
     }
   };
 
@@ -59,8 +59,8 @@ const Dashboard: React.FC = () => {
 
       setOpenDeleteAlert({ open: false, data: null });
       fetchAllSessions();
-    } catch (error) {
-      console.error("Error deleting session data:", error);
+    } catch {
+      toast.error("Failed to delete session. Please try again.");
     }
   };
 
