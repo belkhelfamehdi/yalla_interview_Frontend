@@ -53,11 +53,11 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
         password,
       });
 
-      const { token } = response.data;
+      const { data } = response.data;
       setIsLoading(false);
-      if (token) {
-        localStorage.setItem("token", token);
-        updateUser(response.data);
+      if (data?.token) {
+        localStorage.setItem("token", data.token);
+        updateUser(data);
         navigate("/dashboard");
       }
     } catch (err: unknown) {

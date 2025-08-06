@@ -7,10 +7,11 @@ import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
 
 interface User {
+  _id?: string;
   name?: string;
+  email?: string;
   profileImageUrl?: string;
   token: string;
-  // Add other properties your user object contains
 }
 
 interface UserContextType {
@@ -43,8 +44,8 @@ const UserProvider: React.FC<Props> = ({ children }) => {
 
     const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get<User>(API_PATHS.AUTH.GET_PROFILE);
-        setUser(response.data);
+        const response = await axiosInstance.get<{success: boolean, data: User}>(API_PATHS.AUTH.GET_PROFILE);
+        setUser(response.data.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
