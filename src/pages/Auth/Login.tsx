@@ -62,7 +62,9 @@ const Login: React.FC<LoginProps> = ({ setCurrentPage }) => {
       }
     } catch (err: unknown) {
       const axiosError = err as AxiosError<{ message: string }>;
-      if (axiosError.response?.data?.message) {
+      if (axiosError.response?.status === 429) {
+        setError("Too many login attempts. Please wait a few minutes and try again.");
+      } else if (axiosError.response?.data?.message) {
         setError(axiosError.response.data.message);
       } else {
         setError("An error occurred. Please try again later.");

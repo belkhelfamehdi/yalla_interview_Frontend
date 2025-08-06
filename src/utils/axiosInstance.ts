@@ -35,6 +35,10 @@ axiosInstance.interceptors.response.use(
       if (error.response.status === 401) {
         // Redirect to login page
         window.location.href = "/";
+      } else if (error.response.status === 429) {
+        // Handle rate limiting errors
+        console.warn('Rate limit exceeded:', error.response.data);
+        // You could show a toast notification here
       }
     }
 
