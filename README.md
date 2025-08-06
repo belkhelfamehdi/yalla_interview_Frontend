@@ -1,86 +1,94 @@
-# React + TypeScript + Vite
+# Yalla Interview Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React application for AI-powered interview preparation, built with TypeScript and Vite.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Modern UI**: Built with React 19 and TypeScript
+- **Authentication**: Secure user registration and login
+- **Interview Prep**: AI-generated questions tailored to your role
+- **Session Management**: Create and track interview preparation sessions
+- **Responsive Design**: Optimized for all device sizes
+- **Real-time Updates**: Seamless user experience
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **React 19**: Latest React features and performance improvements
+- **TypeScript**: Type-safe development
+- **Vite**: Fast development and build tool
+- **TailwindCSS**: Modern styling framework
+- **React Router**: Client-side routing
+- **Axios**: HTTP client for API requests
+- **Framer Motion**: Smooth animations
+- **React Hot Toast**: Elegant notifications
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
-
-
-## Testing
-
-Before running any tests, make sure project dependencies are installed using:
+## 🚀 Getting Started
 
 ```bash
+# Install dependencies
 npm install
+
+# Set up environment variables
+cp .env.example .env
+# Update VITE_API_BASE_URL in .env
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-Run the unit and integration test suite with:
+## 🔧 Environment Variables
+
+```env
+VITE_API_BASE_URL=http://localhost:5000
+```
+
+## 🧪 Testing
 
 ```bash
+# Run unit tests
 npm test
-```
 
-End-to-end tests are executed with Cypress. Ensure the development server is running (via `npm run dev`) and then run:
+# Run tests in watch mode
+npm run test:watch
 
-```bash
+# Run end-to-end tests (requires dev server running)
 npm run test:e2e
 ```
 
-## Environment Variables
+## 📁 Project Structure
 
-The frontend expects the backend base URL to be provided via the `VITE_API_BASE_URL` environment variable. Create a `.env` file by copying `.env.example` and adjust the value to match your backend server:
-
-```bash
-cp .env.example .env
-echo "VITE_API_BASE_URL=http://localhost:3000" >> .env  # update with your backend URL
+```
+src/
+├── components/          # Reusable UI components
+│   ├── Cards/          # Card components
+│   ├── Charts/         # Data visualization
+│   ├── Inputs/         # Form inputs
+│   ├── layouts/        # Layout components
+│   └── Loader/         # Loading states
+├── context/            # React context providers
+├── pages/              # Page components
+│   ├── Auth/           # Authentication pages
+│   ├── Home/           # Dashboard
+│   └── InterviewPrep/  # Interview preparation
+├── utils/              # Utility functions
+└── assets/             # Static assets
 ```
 
-The application will use this value for all API requests.
+## 🔗 API Integration
+
+The frontend communicates with the backend API for:
+- User authentication and profile management
+- Interview session CRUD operations
+- AI-powered question generation
+- File uploads for profile images
+
+## 🎨 Design System
+
+The application uses a consistent design system with:
+- Custom color palette (red/pink gradient theme)
+- Responsive breakpoints
+- Consistent spacing and typography
+- Smooth animations and transitions
