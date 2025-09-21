@@ -45,6 +45,7 @@ const CreateSessionForm: React.FC = () => {
     setIsLoading(true);
 
     try {
+      console.log('Step 1: Generating questions with AI...');
       const aiResponse = await axiosInstance.post(API_PATHS.AI.GENERATE_QUESTIONS, {
         role,
         experience,
@@ -52,18 +53,22 @@ const CreateSessionForm: React.FC = () => {
         numberOfQuestions: 10,
       });
 
+      console.log('Step 1 Success: AI Response received:', aiResponse.data);
       const generatedQuestions = aiResponse.data.data;
-
+      
+      console.log('Step 2: Creating session with questions:', generatedQuestions);
       const response = await axiosInstance.post(API_PATHS.SESSION.CREATE, {
         ...formData,
         questions: generatedQuestions,
       });
 
+      console.log('Step 2 Success: Session created:', response.data);
       const sessionId = response.data?.session?._id;
       if (sessionId) {
         navigate(`/interview-prep/${sessionId}`);
       }
     } catch (error: unknown) {
+      console.error('Detailed error:', error);
       if (error instanceof Error) {
         setError("An error occurred while creating the session: " + error.message);
       } else {
