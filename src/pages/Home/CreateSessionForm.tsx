@@ -52,7 +52,7 @@ const CreateSessionForm: React.FC = () => {
         numberOfQuestions: 10,
       });
 
-      const generatedQuestions = aiResponse.data;
+      const generatedQuestions = aiResponse.data.data;
 
       const response = await axiosInstance.post(API_PATHS.SESSION.CREATE, {
         ...formData,
@@ -115,8 +115,8 @@ const CreateSessionForm: React.FC = () => {
             <input
               value={formData.experience}
               onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange("experience", e.target.value)}
-              placeholder="e.g., 1, 3, 5"
-              type="number"
+              placeholder="e.g., 1, 3, 5, or 'Junior', 'Senior'"
+              type="text"
               className="input-modern w-full"
             />
           </div>
