@@ -13,6 +13,8 @@ import QuestionCard from "../../components/Cards/QuestionCard";
 import AIResponsePreview from "./components/AiResponsePreview";
 import Drawer from "../../components/Drawer";
 import SkeletonLoader from "../../components/Loader/SkeletonLoader";
+import { handleApiError } from "../../utils/apiResponseHandler";
+import type { ApiResponse } from "../../utils/apiResponseHandler";
 
 interface Question {
   _id: string;
@@ -72,17 +74,19 @@ const InterviewPrep: React.FC = () => {
       setIsLoading(true);
       setOpenLearnMoreDrawer(true);
 
-      const response = await axiosInstance.post<Explanation>(
+      const response = await axiosInstance.post<ApiResponse<Explanation>>(
         API_PATHS.AI.GENERATE_EXPLANATION,
         { question }
       );
 
-      if (response.data) {
-        setExplanation(response.data);
+      if (response.data?.success && response.data?.data) {
+        setExplanation(response.data.data);
+      } else {
+        setErrorMsg(response.data?.message || "Failed to generate explanation. Please try again.");
       }
     } catch (error: unknown) {
       setExplanation(null);
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
+      const errorMessage = handleApiError(error);
       setErrorMsg("Failed to generate explanation. Please try again. " + errorMessage);
     } finally {
       setIsLoading(false);
@@ -104,7 +108,7 @@ const InterviewPrep: React.FC = () => {
     try {
       setIsUpdateLoader(true);
 
-      const aiResponse = await axiosInstance.post<Question[]>(
+      const aiResponse = await axiosInstance.post<ApiResponse<Question[]>>(
         API_PATHS.AI.GENERATE_QUESTIONS,
         {
           role: sessionData?.role,
@@ -114,7 +118,11 @@ const InterviewPrep: React.FC = () => {
         }
       );
 
-      const generatedQuestions = aiResponse.data;
+      const generatedQuestions = aiResponse.data?.data;
+
+      if (!generatedQuestions || !Array.isArray(generatedQuestions)) {
+        throw new Error(aiResponse.data?.message || "Invalid questions response format");
+      }
 
       const response = await axiosInstance.post(API_PATHS.QUESTION.ADD_TO_SESSION, {
         sessionId,
