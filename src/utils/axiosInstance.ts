@@ -1,3 +1,9 @@
+/**
+ * Axios Instance Configuration
+ * Pre-configured axios client with interceptors for auth tokens
+ * Handles global error responses
+ */
+
 import axios from "axios";
 import { BASE_URL } from "./apiPaths";
 

@@ -1,3 +1,9 @@
+/**
+ * Summary Card Component
+ * Displays session overview in grid/list views
+ * Shows role, topics, experience, and question count
+ */
+
 import React from "react";
 import { LuTrash2, LuCalendar, LuBrain, LuTrendingUp } from "react-icons/lu";
 import { getInitials } from "../../utils/helper";

@@ -1,3 +1,9 @@
+/**
+ * API Response Handler Utility
+ * Provides type-safe response parsing and error handling
+ * Used across the application for API calls
+ */
+
 // API Response handler utility
 export interface ApiResponse<T = any> {
   success: boolean;

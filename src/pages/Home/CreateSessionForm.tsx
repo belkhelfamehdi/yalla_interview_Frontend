@@ -1,3 +1,9 @@
+/**
+ * Create Session Form Component
+ * Form for creating new interview preparation sessions
+ * Generates AI questions and creates session with the backend
+ */
+
 import React, { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuRocket, LuBriefcase, LuClock, LuTarget, LuFileText } from "react-icons/lu";

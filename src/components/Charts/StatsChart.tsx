@@ -1,3 +1,9 @@
+/**
+ * Stats Chart Component
+ * Dashboard statistics visualization
+ * Displays sessions, questions, experience, and completion rate
+ */
+
 import React from 'react';
 import { LuTrendingUp, LuBrain, LuClock, LuTarget } from 'react-icons/lu';
 

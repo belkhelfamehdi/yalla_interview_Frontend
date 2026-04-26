@@ -1,3 +1,9 @@
+/**
+ * API Path Constants
+ * Centralized API endpoint definitions
+ * Used throughout the frontend for API calls
+ */
+
 export const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const API_PATHS = {

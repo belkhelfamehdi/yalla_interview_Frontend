@@ -1,3 +1,9 @@
+/**
+ * Spinner Loader Component
+ * Animated loading indicator
+ * Used during async operations
+ */
+
 const SpinnerLoader = () => {
   return (
     <div role="status" className="flex items-center justify-center">

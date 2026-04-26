@@ -1,3 +1,9 @@
+/**
+ * Application Entry Point
+ * Renders the React application with StrictMode enabled
+ * Mounts the App component to the root DOM element
+ */
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'

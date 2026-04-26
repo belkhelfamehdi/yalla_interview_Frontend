@@ -1,3 +1,9 @@
+/**
+ * User Context Provider
+ * Global authentication state management
+ * Handles user login, logout, and profile fetching
+ */
+
 import React, {
   createContext,
   useState,

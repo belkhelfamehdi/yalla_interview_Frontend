@@ -1,3 +1,9 @@
+/**
+ * AI Response Preview Component
+ * Renders AI-generated Markdown content
+ * Supports syntax highlighting for code blocks
+ */
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable */
 import React, { useState } from 'react';

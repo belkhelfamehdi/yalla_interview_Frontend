@@ -1,3 +1,9 @@
+/**
+ * Sign Up Component
+ * User registration form with optional profile photo
+ * Creates account and redirects to dashboard on success
+ */
+
 import {
   useContext,
   useState,

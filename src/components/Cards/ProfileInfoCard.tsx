@@ -1,3 +1,9 @@
+/**
+ * Profile Info Card Component
+ * Displays user profile with avatar and logout button
+ * Used in Navbar across authenticated pages
+ */
+
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/userContext";

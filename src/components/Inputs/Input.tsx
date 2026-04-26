@@ -1,3 +1,9 @@
+/**
+ * Input Component
+ * Reusable form input with password visibility toggle
+ * Styled with focus states and error handling
+ */
+
 import React, { useState, type ChangeEvent } from 'react';
 import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa6';
 

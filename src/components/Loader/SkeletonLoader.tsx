@@ -1,3 +1,9 @@
+/**
+ * Skeleton Loader Component
+ * Placeholder loading animation
+ * Displayed while content is loading
+ */
+
 const SkeletonLoader = () => {
   return (
     <>

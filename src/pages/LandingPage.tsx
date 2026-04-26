@@ -1,3 +1,9 @@
+/**
+ * Landing Page Component
+ * Public landing page with hero section, features, and authentication modal
+ * Redirects authenticated users to dashboard
+ */
+
 import { useNavigate } from 'react-router-dom';
 import { APP_FEATURES } from '../utils/data';
 import { useContext, useState } from 'react';

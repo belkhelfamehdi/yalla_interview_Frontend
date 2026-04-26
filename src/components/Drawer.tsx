@@ -1,3 +1,9 @@
+/**
+ * Drawer Component
+ * Slide-in panel from right side
+ * Used for displaying AI explanations and additional content
+ */
+
 import React from "react";
 import { LuX } from "react-icons/lu";
 

@@ -1,3 +1,9 @@
+/**
+ * Profile Photo Selector Component
+ * File input for profile picture with preview
+ * Supports image selection and removal
+ */
+
 import React, { useRef, useState, type ChangeEvent } from 'react';
 import { LuUser, LuUpload, LuTrash } from 'react-icons/lu';
 

@@ -1,3 +1,9 @@
+/**
+ * Delete Alert Content Component
+ * Confirmation dialog for delete actions
+ * Used in modal for session deletion
+ */
+
 import React from "react";
 
 interface DeleteAlertContentProps {

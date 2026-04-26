@@ -1,3 +1,9 @@
+/**
+ * Main Application Component
+ * Sets up routing with React Router and provides user context
+ * Defines application routes for landing, dashboard, and interview prep
+ */
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 

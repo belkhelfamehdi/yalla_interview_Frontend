@@ -1,3 +1,9 @@
+/**
+ * Dashboard Layout Component
+ * Wrapper component for authenticated pages
+ * Includes animated background and navbar
+ */
+
 import React, { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 import Navbar from "./Navbar";

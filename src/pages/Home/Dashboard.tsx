@@ -1,3 +1,9 @@
+/**
+ * Dashboard Component
+ * Displays user's interview preparation sessions
+ * Provides search, filter, create session, and delete functionality
+ */
+
 import React, { useState, useEffect } from "react";
 import { LuPlus, LuSearch, LuFilter, LuLayoutGrid, LuLayoutList } from "react-icons/lu";
 import toast from "react-hot-toast";

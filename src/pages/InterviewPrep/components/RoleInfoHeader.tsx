@@ -1,3 +1,9 @@
+/**
+ * Role Info Header Component
+ * Displays session metadata (role, experience, topics)
+ * Shown at top of interview preparation page
+ */
+
 import React from "react";
 
 interface RoleInfoHeaderProps {

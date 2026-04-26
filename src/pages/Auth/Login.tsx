@@ -1,3 +1,9 @@
+/**
+ * Login Component
+ * User authentication form with email/password validation
+ * Stores JWT token and updates user context on success
+ */
+
 import {
   useContext,
   useState,

@@ -1,3 +1,9 @@
+/**
+ * Navbar Component
+ * Fixed navigation bar with logo and user profile
+ * Displays on authenticated pages
+ */
+
 import ProfileInfoCard from "../Cards/ProfileInfoCard";
 import { Link } from "react-router-dom";
 import Image from "../../assets/yalla_interview.png";

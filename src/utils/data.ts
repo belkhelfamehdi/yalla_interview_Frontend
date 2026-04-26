@@ -1,3 +1,9 @@
+/**
+ * Static Data Configuration
+ * Contains card backgrounds and app feature definitions
+ * Used in landing page and UI components
+ */
+
 export const CARD_BG = [
   { id: 1, bgcolor: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)" },
   { id: 2, bgcolor: "linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%)" },

@@ -1,3 +1,9 @@
+/**
+ * Question Card Component
+ * Displays interview question with expandable answer
+ * Supports pinning and AI explanation generation
+ */
+
 import React, { useState, useEffect, useRef } from "react";
 import { LuChevronDown, LuPin, LuPinOff, LuSparkles } from "react-icons/lu";
 import AiResponsePreview from "../../pages/InterviewPrep/components/AiResponsePreview";

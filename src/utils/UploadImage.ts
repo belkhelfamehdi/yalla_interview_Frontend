@@ -1,3 +1,9 @@
+/**
+ * Image Upload Utility
+ * Handles profile image upload to backend
+ * Returns uploaded image URL
+ */
+
 import { API_PATHS } from "./apiPaths";
 import axiosInstance from "./axiosInstance";
 

@@ -1,3 +1,9 @@
+/**
+ * Modal Component
+ * Reusable modal dialog with backdrop and close functionality
+ * Used for authentication forms and alerts
+ */
+
 import React, { type ReactNode } from 'react';
 import { LuX } from 'react-icons/lu';
 

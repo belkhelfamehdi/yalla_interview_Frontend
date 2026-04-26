@@ -1,3 +1,9 @@
+/**
+ * Interview Preparation Page Component
+ * Displays session questions with AI-powered explanations
+ * Allows pinning, adding more questions, and viewing concept details
+ */
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import moment from "moment";
